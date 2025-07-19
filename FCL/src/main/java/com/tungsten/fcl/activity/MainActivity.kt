@@ -88,6 +88,10 @@ import java.lang.ref.WeakReference
 import java.util.logging.Level
 import java.util.stream.Stream
 import kotlin.system.exitProcess
+import android.widget.Button
+import android.widget.ImageButton
+import android.widget.LinearLayout
+import com.google.android.material.card.MaterialCardView
 
 class MainActivity : FCLActivity(), OnSelectListener, View.OnClickListener {
     companion object {
@@ -108,6 +112,18 @@ class MainActivity : FCLActivity(), OnSelectListener, View.OnClickListener {
     private lateinit var theme: IntegerProperty
     var isVersionLoading = false
     private lateinit var permissionResultLauncher: ActivityResultLauncher<String>
+
+    private lateinit var topBar: MaterialCardView
+    private lateinit var navBar: LinearLayout
+    private lateinit var navHome: ImageButton
+    private lateinit var navManage: ImageButton
+    private lateinit var navDownload: ImageButton
+    private lateinit var navSettings: ImageButton
+    private lateinit var mainCard: MaterialCardView
+    private lateinit var infoCard: MaterialCardView
+    private lateinit var bottomBar: LinearLayout
+    private lateinit var btnStart: Button
+    private lateinit var btnSettings: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -265,6 +281,44 @@ class MainActivity : FCLActivity(), OnSelectListener, View.OnClickListener {
         permissionResultLauncher =
             registerForActivityResult(ActivityResultContracts.RequestPermission()) {
             }
+
+        // 绑定新布局控件
+        topBar = findViewById(R.id.top_bar)
+        navBar = findViewById(R.id.nav_bar)
+        navHome = findViewById(R.id.nav_home)
+        navManage = findViewById(R.id.nav_manage)
+        navDownload = findViewById(R.id.nav_download)
+        navSettings = findViewById(R.id.nav_settings)
+        mainCard = findViewById(R.id.main_card)
+        infoCard = findViewById(R.id.info_card)
+        bottomBar = findViewById(R.id.bottom_bar)
+        btnStart = findViewById(R.id.btn_start)
+        btnSettings = findViewById(R.id.btn_settings)
+
+        // 初始化UIManager（如有主内容区切换需求）
+        // uiManager = UIManager(this, mainCard) // 如果UIManager支持MaterialCardView
+
+        // 主按钮点击事件
+        btnStart.setOnClickListener {
+            // 启动游戏等主操作
+        }
+        btnSettings.setOnClickListener {
+            // 打开设置界面等
+        }
+
+        // 左侧导航按钮点击事件
+        navHome.setOnClickListener {
+            // 切换到主页内容
+        }
+        navManage.setOnClickListener {
+            // 切换到管理内容
+        }
+        navDownload.setOnClickListener {
+            // 切换到下载内容
+        }
+        navSettings.setOnClickListener {
+            // 切换到设置内容
+        }
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
