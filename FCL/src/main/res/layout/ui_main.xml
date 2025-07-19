@@ -1,118 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/transparent">
+    android:padding="10dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!-- 顶部栏：自绘LOGO + 设置按钮 -->
-    <LinearLayout
-        android:id="@+id/top_bar"
+    <!-- 公告区大卡片，左侧悬浮 -->
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/announcement_container"
+        android:visibility="gone"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:padding="20dp"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintWidth_percent="0.48"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="16dp">
 
-        <com.tungsten.fcllibrary.component.view.FCLDynamicLogoView
-            android:id="@+id/logo_view"
-            android:layout_width="48dp"
-            android:layout_height="48dp"/>
-
-        <TextView
-            android:id="@+id/launcher_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="FoldCraft Launcher"
-            android:textStyle="bold"
-            android:textSize="24sp"
-            android:textColor="#FFFFFF"
-            android:layout_marginStart="16dp"/>
-
-        <View
-            android:layout_width="0dp"
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/announcement_layout"
+            android:background="@drawable/bg_container_white"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-        <com.tungsten.fcllibrary.component.view.FCLSettingsIconView
-            android:id="@+id/btn_settings"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginEnd="8dp"/>
-    </LinearLayout>
+            <com.tungsten.fcllibrary.component.view.FCLTextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="@string/announcement"
+                android:padding="10dp"
+                android:layout_gravity="center"
+                app:auto_text_tint="true"/>
 
-    <!-- 中部皮肤/角色展示区 -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"/>
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <com.tungsten.fcllibrary.component.view.FCLTextView
+                    android:padding="10dp"
+                    android:id="@+id/announcement"
+                    android:autoLink="web"
+                    android:textColorLink="#77FF00"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:auto_text_tint="true"/>
+
+            </ScrollView>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"/>
+
+            <com.tungsten.fcllibrary.component.view.FCLTextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="@string/update_date"
+                android:padding="10dp"
+                android:layout_gravity="center"
+                app:auto_text_tint="true"/>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <com.tungsten.fcllibrary.component.view.FCLButton
+            android:id="@+id/hide"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/button_hide"
+            app:ripple="true"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <!-- 皮肤展示区大卡片，右侧悬浮 -->
     <RelativeLayout
         android:id="@+id/skin_container"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/top_bar"
-        app:layout_constraintBottom_toTopOf="@id/bottom_panel"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_height="match_parent"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintWidth_percent="0.48"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.45"
-        app:layout_constraintWidth_percent="0.8"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:background="@android:color/transparent"/>
-
-    <!-- 底部面板：公告栏+启动按钮 -->
-    <LinearLayout
-        android:id="@+id/bottom_panel"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="20dp"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:background="@android:color/transparent">
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/announcement_card"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            app:cardCornerRadius="18dp"
-            app:cardElevation="8dp"
-            app:cardBackgroundColor="#CC222222">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <TextView
-                    android:id="@+id/announcement_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="公告"
-                    android:textStyle="bold"
-                    android:textColor="#00FFD0"
-                    android:textSize="16sp"/>
-
-                <TextView
-                    android:id="@+id/announcement_content"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="这里是公告内容"
-                    android:textColor="#FFFFFF"
-                    android:textSize="14sp"
-                    android:layout_marginTop="4dp"/>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <com.tungsten.fcllibrary.component.view.FCLStartButtonView
-            android:id="@+id/btn_start"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginTop="8dp"/>
-    </LinearLayout>
-
-    <!-- 动态背景由代码绘制，不在布局中直接体现 -->
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="32dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="32dp"
+        android:visibility="gone"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,21 +8,21 @@
     android:transitionName="background"
     tools:context=".activity.MainActivity">
 
+    <!-- 左侧菜单悬浮竖条，居中显示 -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/left_menu"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_width="72dp"
+        android:layout_height="420dp"
         android:background="@drawable/bg_game_menu"
         android:clipChildren="false"
         android:clipToPadding="false"
-        android:elevation="100dp"
-        android:paddingStart="5dp"
-        android:paddingTop="10dp"
-        android:paddingEnd="5dp"
-        android:paddingBottom="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:elevation="24dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <com.tungsten.fcllibrary.component.view.FCLMenuView
             android:id="@+id/home"
@@ -85,16 +85,19 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <!-- 右侧信息区悬浮卡片，靠右居中 -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/right_menu"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_width="320dp"
+        android:layout_height="520dp"
         android:background="@drawable/bg_right_menu"
         android:clipChildren="false"
         android:clipToPadding="false"
-        android:elevation="100dp"
+        android:elevation="24dp"
+        android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintWidth_percent="0.25">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" >
 
         <com.addisonelliott.segmentedbutton.SegmentedButtonGroup
             android:id="@+id/backend"
@@ -281,12 +284,19 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <!-- 中央内容区大卡片，居中悬浮 -->
     <com.tungsten.fcllibrary.component.view.FCLUILayout
         android:id="@+id/ui_layout"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="600dp"
+        android:layout_marginStart="120dp"
+        android:layout_marginEnd="120dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginBottom="48dp"
+        app:layout_constraintStart_toEndOf="@id/left_menu"
         app:layout_constraintEnd_toStartOf="@id/right_menu"
-        app:layout_constraintStart_toEndOf="@+id/left_menu" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <com.tungsten.fcllibrary.component.view.FCLDynamicIsland
         android:id="@+id/title"
@@ -298,14 +308,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <com.tungsten.fcllibrary.component.view.FCLDynamicBackgroundView
-        android:id="@+id/dynamic_background"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
