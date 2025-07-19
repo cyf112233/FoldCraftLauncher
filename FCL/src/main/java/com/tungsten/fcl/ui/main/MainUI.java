@@ -5,7 +5,6 @@ import android.graphics.BitmapFactory;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import androidx.appcompat.widget.LinearLayoutCompat;
 
@@ -58,50 +57,26 @@ public class MainUI extends FCLCommonUI implements View.OnClickListener {
     @Override
     public void onCreate() {
         super.onCreate();
-        // 绑定新布局
-        View topBar = findViewById(R.id.top_bar);
-        View logoView = findViewById(R.id.logo_view);
-        View btnSettings = findViewById(R.id.btn_settings);
-        RelativeLayout skinContainer = findViewById(R.id.skin_container);
-        View bottomPanel = findViewById(R.id.bottom_panel);
-        View startButton = findViewById(R.id.btn_start);
-        View announcementCard = findViewById(R.id.announcement_card);
-        TextView announcementTitle = findViewById(R.id.announcement_title);
-        TextView announcementContent = findViewById(R.id.announcement_content);
-        // 设置logo自绘
-        if (logoView instanceof FCLDynamicLogoView) {
-            ((FCLDynamicLogoView) logoView).startAnimation();
-        }
-        // 设置设置按钮自绘
-        if (btnSettings instanceof FCLSettingsIconView) {
-            ((FCLSettingsIconView) btnSettings).setOnClickListener(v -> {
-                // 打开设置界面
-                getParent().switchUI(getUIManager().settingUI);
-            });
-        }
-        // 公告内容
-        checkAnnouncement((title, content) -> {
-            announcementTitle.setText(title);
-            announcementContent.setText(content);
-        });
-        // 启动按钮自绘
-        if (startButton instanceof FCLStartButtonView) {
-            ((FCLStartButtonView) startButton).setOnClickListener(v -> {
-                // 启动游戏
-                getUIManager().getActivity().runOnUiThread(() -> {
-                    // 这里调用启动逻辑
-                });
-            });
-        }
-        // 皮肤展示区
+
+        announcementContainer = findViewById(R.id.announcement_container);
+        announcementLayout = findViewById(R.id.announcement_layout);
+        title = findViewById(R.id.title);
+        announcementView = findViewById(R.id.announcement);
+        date = findViewById(R.id.date);
+        hide = findViewById(R.id.hide);
+        ThemeEngine.getInstance().registerEvent(announcementLayout, () -> announcementLayout.getBackground().setTint(ThemeEngine.getInstance().getTheme().getColor()));
+        hide.setOnClickListener(this);
+
+        skinContainer = findViewById(R.id.skin_container);
         renderer = new SkinRenderer(getContext());
-        skinCanvas = new SkinCanvas(getContext());
-        skinCanvas.setRenderer(renderer, 5f);
-        skinContainer.removeAllViews();
-        skinContainer.addView(skinCanvas);
-        skinContainer.setVisibility(View.VISIBLE);
+        ViewGroup.LayoutParams layoutParamsSkin = skinContainer.getLayoutParams();
+        layoutParamsSkin.width = (int) (((View) skinContainer.getParent().getParent()).getMeasuredWidth() * 0.5f);
+        layoutParamsSkin.height = (int) Math.min(((View) skinContainer.getParent().getParent()).getMeasuredWidth() * 0.5f, ((View) skinContainer.getParent().getParent()).getMeasuredHeight());
+        skinContainer.setLayoutParams(layoutParamsSkin);
+
+        checkAnnouncement();
+
         setupSkinDisplay();
-        // 动态背景由Activity注入或在MainActivity中实现
     }
 
     @Override
@@ -155,8 +130,7 @@ public class MainUI extends FCLCommonUI implements View.OnClickListener {
         });
     }
 
-    // 公告内容回调
-    private void checkAnnouncement(AnnouncementCallback callback) {
+    private void checkAnnouncement() {
         try {
             String url = LocaleUtils.isChinese(getContext()) ? ANNOUNCEMENT_URL_CN : ANNOUNCEMENT_URL;
             Task.supplyAsync(() -> HttpRequest.HttpGetRequest.GET(url).getJson(Announcement.class))
@@ -164,18 +138,15 @@ public class MainUI extends FCLCommonUI implements View.OnClickListener {
                         this.announcement = announcement;
                         if (!announcement.shouldDisplay(getContext()))
                             return;
-                        callback.onResult(
-                            AndroidUtils.getLocalizedText(getContext(), "announcement", announcement.getDisplayTitle(getContext())),
-                            announcement.getDisplayContent(getContext())
-                        );
+                        announcementContainer.setVisibility(View.VISIBLE);
+                        title.setText(AndroidUtils.getLocalizedText(getContext(), "announcement", announcement.getDisplayTitle(getContext())));
+                        announcementView.setText(announcement.getDisplayContent(getContext()));
+                        date.setText(AndroidUtils.getLocalizedText(getContext(), "update_date", announcement.getDate()));
                     }).start();
         } catch (Exception e) {
             e.printStackTrace();
             Logging.LOG.log(Level.WARNING, "Failed to get announcement!", e);
         }
-    }
-    private interface AnnouncementCallback {
-        void onResult(String title, String content);
     }
 
     private void hideAnnouncement() {
