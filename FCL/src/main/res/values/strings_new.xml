@@ -16,8 +16,6 @@
     <!-- 启动相关 -->
     <string name="launch_game">启动游戏</string>
     <string name="no_version_selected">未选择版本</string>
-    <string name="manage_version">版本管理</string>
-    <string name="jar_execute">JAR执行</string>
     
     <!-- 状态信息 -->
     <string name="network_online">网络在线</string>
@@ -58,7 +56,6 @@
     
     <!-- 按钮文本 -->
     <string name="button_confirm">确认</string>
-    <string name="button_cancel">取消</string>
     <string name="button_retry">重试</string>
     <string name="button_close">关闭</string>
     <string name="button_ok">确定</string>
@@ -143,7 +140,6 @@
     <string name="update_downloading">正在下载更新...</string>
     <string name="update_installing">正在安装更新...</string>
     <string name="update_completed">更新完成</string>
-    <string name="update_failed">更新失败</string>
     
     <!-- 帮助和关于 -->
     <string name="help_title">帮助</string>
